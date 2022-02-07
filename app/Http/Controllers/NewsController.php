@@ -33,6 +33,7 @@ class NewsController extends Controller
         $news = Cache::remember('news',600, function () {
             return News::all()->sortByDesc('created_at');
         });
+        Cache::forget('news');
         return view('news.index')->withNews($news);
     }
 
@@ -79,7 +80,6 @@ class NewsController extends Controller
         $article-> save();
 
         //News::create($request->all());
-        Cache::forget('news');
 
         return redirect()->route('news.index');
     }
@@ -113,6 +113,7 @@ class NewsController extends Controller
             $news = News::findOrFail($id);
             return view('news.edit', compact('news','category'));
         }
+        Cache::forget('news');
         return redirect('/');
     }
 
@@ -151,7 +152,7 @@ class NewsController extends Controller
         $article->category_id = $request->get('category_id');
         $article->save();
 
-        Cache::forget('news');
+        //Cache::forget('news');
 
         return redirect()->route('news.show', $article->id);
     }
@@ -171,6 +172,7 @@ class NewsController extends Controller
             return redirect()->route('news.index');
         }
 
+        Cache::forget('news');
         return redirect('/');
     }
 

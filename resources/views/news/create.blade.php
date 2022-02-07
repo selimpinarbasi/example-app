@@ -17,6 +17,7 @@
                     <label>image : </label>
                     <input type="file" name="image">
                 </div>
+
                 <div>
                     <label>Category ID : </label>
                     <!--<input type="text" name="category_id">-->
