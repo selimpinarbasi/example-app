@@ -18,7 +18,6 @@ class NewsTest extends TestCase
         $this->assertTrue(true);
     }
 
-
     public function test_my_News()
     {
         $userId = User::all();

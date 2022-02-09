@@ -30,6 +30,8 @@ class NewsController extends Controller
         //$category = Category::all();
         //$news = News::all()->sortByDesc('created_at');
 
+        //return News::all()->sortByDesc('created_at');
+
         $news = Cache::remember('news',600, function () {
             return News::all()->sortByDesc('created_at');
         });
@@ -62,8 +64,9 @@ class NewsController extends Controller
             'image' => 'required|mimes:jpg,png,jpeg|max:5048',
             'category_id' => 'required|exists:categories,id',
         ]);
+        $randomString = $this->RandomString();
 
-        $newImage = time() . '-' . $request->title . '.' . $request->image->extension();
+        $newImage = time() . '-' . $request->title . $randomString . '.' . $request->image->extension();
         $request->image->move(public_path('images'), $newImage);
 
         $article = new News;
@@ -132,7 +135,9 @@ class NewsController extends Controller
 
         $article->title = $request->get('title');
         $article->content = $request->get('content');
+        $article->category_id = $request->get('category_id');
 
+        //adding image
         $path = public_path('images/');
         $fileOld = $path.$article->image;
 
@@ -144,12 +149,10 @@ class NewsController extends Controller
 
         $file = $request->image;
         $filename = $file->getClientOriginalName();
-
         $file->move($path, $filename);
 
         //DB ye kaydetme işlemi
         $article->image = $filename;
-        $article->category_id = $request->get('category_id');
         $article->save();
 
         //Cache::forget('news');
@@ -184,12 +187,15 @@ class NewsController extends Controller
 
         return view('news.index', compact('news'));
     }
-    function rand_string( $length ) {
-        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz@#$&*.,";
-        $size = strlen( $chars );
-        for( $i = 0; $i < $length; $i++ ) {
-            $str= $chars[ rand( 0, $size - 1 ) ];
+    function RandomString($length = 10)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
-        return $str;
+        return $randomString;
     }
+
 }
