@@ -4,7 +4,6 @@ namespace App\Http\Controllers\ApiControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class NewsApiController extends Controller
@@ -50,15 +49,38 @@ class NewsApiController extends Controller
     }
 
     // update news {put}
-    function updateNews(Request $request)
+    public function updateNews(Request $request)
     {
+/*var_export($_POST);
+var_export(file_get_contents('php://input'));
+exit;*/
         $news = News::find($request->id);
+        //dd($request->category_id);
 
         $news->category_id = $request->category_id;
         $news->user_id = $request->user_id;
         $news->title = $request->title;
         $news->content = $request->content;
-        $news->image = $request->image;
+        //$news->image = $request->image;
+
+        //adding image
+        $path = public_path('public/images/');
+        $fileOld = $path.$news->image;
+
+        //unlink yani delete işlemi
+        if (file_exists($fileOld))
+        {
+            unlink($fileOld);
+        }
+
+        $file = $request->image;
+        $filename = $file->getClientOriginalName();
+        $file->move($path, $filename);
+
+        //DB ye kaydetme işlemi
+        $news->image = $filename;
+        //$news->save();
+        //$news->image = $request->image;
 
         $result = $news->save();
 

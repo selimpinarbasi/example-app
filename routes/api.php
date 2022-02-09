@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get('news/{id?}',[NewsApiController::class,'news']);
 Route::post('addNews',[NewsApiController::class,'addNews']);
-Route::put('updateNews',[NewsApiController::class,'updateNews']);
+Route::put('updateNews/{id}',[NewsApiController::class,'updateNews']);
 Route::delete('deleteNews/{id}',[NewsApiController::class,'deleteNews']);
 
 Route::get('user',[UserApiController::class,'user']);
@@ -30,7 +30,6 @@ Route::get('user/{id?}',[UserApiController::class,'user']);
 Route::post('addUser',[UserApiController::class,'addUser']);
 Route::put('updateUser',[UserApiController::class,'updateUser']);
 Route::delete('deleteUser/{id}',[UserApiController::class,'deleteUser']);
-
 
 Route::get('category/{id?}',[CategoryApiController::class,'category']);
 Route::post('addCategory',[CategoryApiController::class,'addCategory']);
