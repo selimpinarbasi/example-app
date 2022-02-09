@@ -64,7 +64,7 @@ exit;*/
         //$news->image = $request->image;
 
         //adding image
-        $path = public_path('public/images/');
+        $path = public_path('images/');
         $fileOld = $path.$news->image;
 
         //unlink yani delete işlemi
