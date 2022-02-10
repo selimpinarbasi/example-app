@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Nette\Utils\Random;
 
 class UserApiController extends Controller
 {
@@ -18,7 +19,7 @@ class UserApiController extends Controller
     //add user {post}
     function addUser(Request $request)
     {
-        $randomString = $this->RandomString();
+        $randomString = $this->RandomString(10);
 
         $user= new User;
 
@@ -43,7 +44,7 @@ class UserApiController extends Controller
     //update user {put}
     function updateUser(Request $request)
     {
-        $randomString = $this->RandomString();
+        $randomString = $this->RandomString(10);
 
         $user = User::find($request->id);
 
@@ -87,7 +88,27 @@ class UserApiController extends Controller
         }
     }
 
-    function RandomString($length = 10)
+    public function sendToken(Request $request)
+    {
+        $user= User::where('email', $request->email)->first();
+        // print_r($data);
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response([
+                'message' => ['These credentials do not match our records.']
+            ], 404);
+        }
+
+        $token = $user->createToken('my-app-token')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
+        //return[$this->RandomString(100)];
+    }
+    function RandomString($length)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);

@@ -71,7 +71,10 @@ class UsersController extends Controller
         $user->name = $request->get('name');
         $user->lastname = $request->get('lastname');
         //$user->password = Hash::make($request->get('password'));
-        $user->password = Hash::make(crypt($request->get('password'), $randomString));
+
+        //API kısmında hash ile test edildiği için saltlama kısmını kaldırıyorum
+        //$user->password = Hash::make(crypt($request->get('password'), $randomString));
+        $user->password = Hash::make($request->get('password'));
         $user->save();
 
         return redirect()->route('users.edit', $user);

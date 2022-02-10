@@ -61,7 +61,6 @@ exit;*/
         $news->user_id = $request->user_id;
         $news->title = $request->title;
         $news->content = $request->content;
-        //$news->image = $request->image;
 
         //adding image
         $path = public_path('images/');
@@ -79,8 +78,6 @@ exit;*/
 
         //DB ye kaydetme işlemi
         $news->image = $filename;
-        //$news->save();
-        //$news->image = $request->image;
 
         $result = $news->save();
 
