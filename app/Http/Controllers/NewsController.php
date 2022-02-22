@@ -77,6 +77,7 @@ class NewsController extends Controller
             'user_id'       => Auth::id(),
         ]);
 
+        //Yukarıdaki create ile değişiklik yapıldı...
         /*$article = new News;
 
         $article->title = $request->title;
