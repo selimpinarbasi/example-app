@@ -69,18 +69,26 @@ class NewsController extends Controller
         $newImage = time() . '-' . $request->title . $randomString . '.' . $request->image->extension();
         $request->image->move(public_path('images'), $newImage);
 
-        $article = new News;
+        News::create([
+            'title'         => $request->title,
+            'content'       => $request->content,
+            'image'         => $newImage,
+            'category_id'   => $request->category_id,
+            'user_id'       => Auth::id(),
+        ]);
+
+        /*$article = new News;
 
         $article->title = $request->title;
         $article->content = $request->content;
         $article->image = $newImage;
         $article->category_id = $request->category_id;
-        $article->user_id = Auth::id();
+        $article->user_id = Auth::id();*/
         //$article->date = $request->date;
-        $request->merge([
+        /*$request->merge([
             'user_id' => Auth::id(),
-        ]);
-        $article-> save();
+        ]);*/
+        //$article-> save();
 
         //News::create($request->all());
 
@@ -168,7 +176,7 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
-        if ($news->user_id == Auth::id() || Auth::user()->isAdmin) {
+        if ($news->user_id == Au∑th::id() || Auth::user()->isAdmin) {
 
             $news->delete();
 
