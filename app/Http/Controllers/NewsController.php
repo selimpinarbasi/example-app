@@ -142,10 +142,6 @@ class NewsController extends Controller
 
         $article = News::find($request->id);
 
-        $article->title = $request->get('title');
-        $article->content = $request->get('content');
-        $article->category_id = $request->get('category_id');
-
         //adding image
         $path = public_path('images/');
         $fileOld = $path.$article->image;
@@ -160,6 +156,9 @@ class NewsController extends Controller
         $filename = $file->getClientOriginalName();
         $file->move($path, $filename);
 
+        $article->title = $request->get('title');
+        $article->content = $request->get('content');
+        $article->category_id = $request->get('category_id');
         //DB ye kaydetme işlemi
         $article->image = $filename;
         $article->save();
