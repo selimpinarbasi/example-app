@@ -176,7 +176,7 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
-        if ($news->user_id == Au∑th::id() || Auth::user()->isAdmin) {
+        if ($news->user_id == Auth::id() || Auth::user()->isAdmin) {
 
             $news->delete();
 
