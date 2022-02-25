@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
     Route::get('category/{id?}',[CategoryApiController::class,'category']);
     Route::put('updateCategory',[CategoryApiController::class,'updateCategory']);
+    Route::post('addCategory',[CategoryApiController::class,'addCategory']);
     Route::delete('deleteCategory/{id}',[CategoryApiController::class,'deleteCategory']);
 });
 
@@ -38,7 +39,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('addCategory',[CategoryApiController::class,'addCategory']);
 Route::get('news/{id?}',[NewsApiController::class,'news']);
 
 Route::post('login ',[UserApiController::class,'sendToken']);
